@@ -36,11 +36,14 @@ $socialLinks = [
 ?>
 <main>
 
-    <!-- SECTION 1: Portfolio teaser (background + animated logo) -->
+    <!-- SECTION 1: Portfolio teaser. Layers, back to front:
+         Home_section1.png > lights.png (flickers) > details2.png (pulses) > logo.png -->
     <section class="home-section" id="home">
         <div class="media-stack">
-            <?php renderImage($homeFolder . 'Home_section1.gif', '', $basePath, 'media-image'); ?>
-            <?php renderImage($homeFolder . 'logo.png', 'Portfolio DRC logo', $basePath, 'layer logo-layer reveal'); ?>
+            <?php renderImage($homeFolder . 'Home_section1.png', '', $basePath, 'media-image'); ?>
+            <?php renderImage($homeFolder . 'lights.png', '', $basePath, 'layer lights-layer'); ?>
+            <?php renderImage($homeFolder . 'details2.png', 'Donex Raver Carillo: multimedia artist, illustrator, graphic designer', $basePath, 'layer details2-layer reveal'); ?>
+            <?php renderImage($homeFolder . 'logo.png', 'Portfolio DRC logo', $basePath, 'layer logo-layer reveal delay-1'); ?>
         </div>
     </section>
 
