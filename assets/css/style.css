@@ -189,8 +189,24 @@ a:focus-visible, button:focus-visible {
 .layer { position: absolute; height: auto; }
 .layer.asset-placeholder { min-height: 80px; }
 
-/* Section 1: logo in the center */
-.logo-layer { inset: 0; margin: auto; width: 40%; }
+/* Section 1 layers, back to front (z-index): Home_section1.png, lights.png 1, details2.png 2, logo.png 3 */
+.lights-layer   { top: 0; left: 0; width: 100%; z-index: 1; pointer-events: none; animation: lightsFlicker 5s linear infinite; }
+.details2-layer { top: 0; left: 0; width: 100%; z-index: 2; animation: detailsPulse 3s ease-in-out infinite; }
+.logo-layer     { inset: 0; margin: auto; width: 40%; z-index: 3; }
+
+/* Lights flicker like a neon sign: mostly on, with quick irregular dips */
+@keyframes lightsFlicker {
+    0%, 19%, 21%, 23%, 54%, 56%, 79%, 81%, 100% { opacity: 1; }
+    20%, 22% { opacity: 0.35; }
+    55%      { opacity: 0.55; }
+    80%      { opacity: 0.8; }
+}
+
+/* details2 pulses gently */
+@keyframes detailsPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.03); }
+}
 
 /* Section 2: photo in the center, details on top of the whole background */
 .details-layer { top: 0; left: 0; width: 100%; z-index: 1; }
