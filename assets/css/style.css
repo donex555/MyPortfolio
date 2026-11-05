@@ -1,0 +1,425 @@
+/* ==========================================================
+   style.css
+   1. Colors and fonts (edit these to change the whole look)
+   2. Base
+   3. Hamburger + menu
+   4. Homepage
+   5. My Works + gallery pages
+   6. Footer
+   ========================================================== */
+
+/* ---------- 1. Fonts ----------
+   Put your font files in assets/fonts/ with these names (or change the names here).
+   Cave Age Rough: assets/fonts/CaveAgeRough.woff2 (or .ttf)
+   Special Elite:  assets/fonts/SpecialElite.woff2 (or .ttf) */
+@font-face {
+    font-family: "Cave Age Rough";
+    src: url("../fonts/CaveAgeRough.woff2") format("woff2"),
+         url("../fonts/CaveAgeRough.ttf") format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: "Special Elite";
+    src: url("../fonts/SpecialElite.woff2") format("woff2"),
+         url("../fonts/SpecialElite.ttf") format("truetype");
+    font-display: swap;
+}
+
+/* ---------- Colors and font settings ---------- */
+:root {
+    --colorCyan: #16B8C5;
+    --colorYellow: #FFD43B;
+    --colorPurple: #7654C8;
+    --colorDark: #190B1C;
+    --colorPlum: #5B1F4D;
+    --colorPink: #F23D7A;
+    --colorOrange: #FF743D;
+
+    --fontHeading: "Bowlby One SC", Georgia, serif;
+    --fontSecondary: "Bowlby One SC", Georgia, serif;
+    --menuSpeed: 0.3s;
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--colorDark);
+    color: #fff;
+    font-family: var(--fontBody);
+    line-height: 1.6;
+}
+
+img, video { max-width: 100%; height: auto; display: block; }
+
+a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--colorYellow);
+    outline-offset: 3px;
+}
+
+/* Shown when one of your files isn't added yet */
+.asset-placeholder {
+    display: grid;
+    place-content: center;
+    min-height: 160px;
+    padding: 1rem;
+    text-align: center;
+    border: 3px dashed var(--colorPink);
+    background: var(--colorPlum);
+    color: var(--colorYellow);
+    font-family: var(--fontSecondary);
+}
+.asset-note {
+    position: relative;
+    z-index: 1;
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--colorPlum);
+    border-left: 4px solid var(--colorOrange);
+    font-family: var(--fontSecondary);
+}
+
+/* ---------- 3. Header, menu, hamburger ----------
+   Desktop: links show in a row inside the header bar.
+   Mobile (768px and smaller): links hide behind the hamburger button. */
+:root { --headerHeight: 68px; }
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: var(--headerHeight);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.5rem;
+    background: var(--colorDark);
+    border-bottom: 4px solid var(--colorPink);
+}
+
+/* Desktop menu */
+.site-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 0.5rem;
+}
+.site-menu a {
+    display: block;
+    padding: 0.5rem 1.2rem;
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-family: var(--fontHeading);
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    transition: background var(--menuSpeed), color var(--menuSpeed), transform var(--menuSpeed);
+}
+.site-menu a:hover,
+.site-menu a:focus-visible { background: var(--colorPink); color: var(--colorDark); transform: translateY(-2px); }
+.site-menu a.is-active { background: var(--colorYellow); color: var(--colorDark); }
+
+/* Hamburger: hidden on desktop */
+.hamburger {
+    display: none;
+    width: 48px;
+    height: 48px;
+    align-content: center;
+    gap: 6px;
+    padding: 0 11px;
+    background: var(--colorDark);
+    border: 3px solid var(--colorYellow);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background var(--menuSpeed), border-color var(--menuSpeed);
+}
+.hamburger:hover { background: var(--colorPlum); border-color: var(--colorPink); }
+.hamburger-line {
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--colorYellow);
+    transition: transform var(--menuSpeed), opacity var(--menuSpeed);
+}
+/* The three lines turn into an X when open */
+.hamburger.is-open .hamburger-line:nth-child(1) { transform: translateY(10px) rotate(45deg); }
+.hamburger.is-open .hamburger-line:nth-child(2) { opacity: 0; }
+.hamburger.is-open .hamburger-line:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
+
+/* Mobile menu */
+@media (max-width: 768px) {
+    .site-header { justify-content: flex-end; }
+    .hamburger { display: grid; position: relative; z-index: 1002; }
+
+    .site-menu {
+        position: fixed;
+        inset: 0 0 0 auto;
+        z-index: 1001;
+        width: min(320px, 100%);
+        padding: 6rem 2rem 2rem;
+        background: var(--colorPlum);
+        border-left: 4px solid var(--colorPink);
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform var(--menuSpeed), visibility var(--menuSpeed);
+    }
+    .site-menu.is-open { transform: translateX(0); visibility: visible; }
+    .site-menu ul { flex-direction: column; }
+    .site-menu a { font-size: 1.6rem; padding: 0.8rem 1rem; }
+    .site-menu a:hover,
+    .site-menu a:focus-visible { transform: translateX(-6px); }
+}
+
+/* ---------- 4. Homepage ----------
+   Each section = a background image (full width, never cropped) with
+   smaller images layered on top. Layers use % so they scale with the background. */
+.home-section {
+    background: var(--colorDark);
+    scroll-margin-top: var(--headerHeight);
+}
+.media-stack { position: relative; width: 100%; overflow: hidden; }
+.media-stack > .media-image { width: 100%; height: auto; }
+.media-stack > .asset-placeholder { min-height: 60vh; }
+
+/* Layers sitting on top of the background */
+.layer { position: absolute; height: auto; }
+.layer.asset-placeholder { min-height: 80px; }
+
+/* Section 1: logo in the center */
+.logo-layer { inset: 0; margin: auto; width: 40%; }
+
+/* Section 2: photo in the center, details on top of the whole background */
+.details-layer { top: 0; left: 0; width: 100%; z-index: 1; }
+.portrait-layer { inset: 0; margin: auto; height: 92%; width: auto; z-index: 2; }
+
+/* Section 3: donex2 is BELOW the quotes (z-index 2 vs 3) */
+.donex2-layer { bottom: 0; left: 0; right: 0; margin-inline: auto; height: 88%; width: auto; z-index: 2; }
+.quote-top    { top: 2%;    left: 0; right: 0; margin-inline: auto; width: 92%; z-index: 3; animation: floatY 4s ease-in-out infinite; }
+.quote-bottom { bottom: 2%; left: 0; right: 0; margin-inline: auto; width: 92%; z-index: 3; animation: floatY 4s ease-in-out infinite 1s; }
+
+/* Social buttons: PNG images that already contain their text */
+.social-item {
+    position: absolute;
+    z-index: 4;
+    width: 20%;
+    display: block;
+}
+.social-item img { width: 100%; height: auto; }
+.social-item .asset-placeholder { min-height: 0; padding: 0.5rem; font-size: 0.6rem; }
+
+a.social-item:hover,
+a.social-item:focus-visible {
+    transform: scale(1.1) rotate(-2deg);
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+}
+.social-item.is-empty img { opacity: 0.6; }   /* LinkedIn: no link yet */
+
+.social-email     { left: 4%;  top: 22%; }
+.social-linkedin  { left: 4%;  top: 50%; }
+.social-facebook  { right: 4%; top: 22%; }
+.social-instagram { right: 4%; top: 50%; }
+
+/* Reveal animation: items fade in and slide up when the section appears */
+.js .reveal {
+    opacity: 0;
+    translate: 0 40px;
+    transition: opacity 0.8s ease var(--delay, 0s),
+                translate 0.8s ease var(--delay, 0s),
+                transform 0.3s ease,
+                color 0.3s ease;
+}
+.js .reveal.is-visible { opacity: 1; translate: 0 0; }
+.delay-1 { --delay: 0.2s; }
+.delay-2 { --delay: 0.4s; }
+.delay-3 { --delay: 0.6s; }
+/* Section 2: donex1 SLAMS in, then the whole section rattles */
+.js .portrait-layer { opacity: 0; }
+.js .is-shown .portrait-layer { animation: slam 1s ease-in forwards; }
+.js .is-shown .rattle-stack { animation: rattle 0.3s linear 1s; }
+
+@keyframes slam {
+    0%   { transform: scale(10); opacity: 0; }
+    40%  { opacity: 0; }
+    100% { transform: scale(1);  opacity: 1; }
+}
+@keyframes rattle {
+    0%   { transform: translate(0, 0); }
+    10%  { transform: translate(0, -5px); }
+    20%  { transform: translate(-5px, 0); }
+    30%  { transform: translate(0, 5px); }
+    40%  { transform: translate(5px, 0); }
+    50%  { transform: translate(0, -2px); }
+    60%  { transform: translate(-2px, 0); }
+    70%  { transform: translate(0, 2px); }
+    80%  { transform: translate(2px, 0); }
+    90%  { transform: translate(0, -1px); }
+    100% { transform: translate(0, 0); }
+}
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1) rotate(-1deg); }
+    50%      { transform: scale(1.06) rotate(1deg); }
+}
+@keyframes sway {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50%      { transform: rotate(1.5deg); }
+}
+@keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-2%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; translate: none; }
+    .js .portrait-layer { opacity: 1; }
+
+}
+
+
+/* The background is on the section, so it always fills the screen */
+.my-works {
+    position: relative;
+    min-height: calc(100vh - var(--headerHeight));
+    min-height: calc(100svh - var(--headerHeight));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow: hidden;
+    background: var(--colorDark) url("../images/my-works/MyWorks_background.png") center / cover no-repeat;
+}
+.works-note { position: absolute; top: 0; left: 0; }
+
+/* Desktop stage: fills the whole screen. cqh / cqw = 1% of the stage's height / width */
+.works-stage {
+    position: relative;
+    container-type: size;
+    width: 100%;
+    height: calc(100vh - var(--headerHeight) - 2rem);
+    height: calc(100svh - var(--headerHeight) - 2rem);
+    min-height: 480px;
+}
+
+/* Donex (left): slides in, then floats */
+.works-donex {
+    position: absolute;
+    left: 6%;
+    top: 3%;
+    height: 94%;
+    width: auto;
+    z-index: 2;
+    pointer-events: none;
+    transform-origin: bottom center;
+    animation: worksSlideIn 0.9s ease-out both,
+               worksFloat 6s ease-in-out 0.9s infinite;
+}
+
+/* Seal (bottom right): pops in, then swims side to side */
+.works-seal {
+    position: absolute;
+    right: 5%;
+    bottom: 2%;
+    width: min(46cqh, 24cqw);
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+    animation: worksPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both,
+               worksSwim 4s ease-in-out 1.3s infinite;
+}
+
+/* Buttons: stacked in the center. translate centers them, so hover uses transform. */
+.category-button {
+    position: absolute;
+    left: 50%;
+    width: min(112cqh, 56cqw);
+    z-index: 3;
+    translate: -50% -50%;
+    animation: worksButtonIn 0.6s ease-out both;
+    transition: transform var(--menuSpeed), filter var(--menuSpeed);
+}
+.category-button img { width: 100%; height: auto; }
+.category-button:hover,
+.category-button:focus-visible {
+    transform: scale(1.05) rotate(-1deg);
+    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.6));
+}
+.works-button-1 { top: 26%; animation-delay: 0.3s; }
+.works-button-2 { top: 50%; animation-delay: 0.5s; }
+.works-button-3 { top: 74%; animation-delay: 0.7s; }
+
+@keyframes worksSlideIn { from { opacity: 0; translate: -60px 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes worksFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-1.5%) rotate(1deg); }
+}
+@keyframes worksPop { from { opacity: 0; scale: 0.3; } to { opacity: 1; scale: 1; } }
+@keyframes worksSwim {
+    0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+    50%      { transform: translate(-4%, -6%) rotate(3deg); }
+}
+@keyframes worksButtonIn { from { opacity: 0; scale: 0.85; } to { opacity: 1; scale: 1; } }
+
+/* Mobile and small tablets: portrait layout like your phone reference */
+@media (max-width: 768px) {
+    .works-stage {
+        container-type: normal;
+        aspect-ratio: 4 / 5;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-width: 600px;
+    }
+    .works-donex { left: 0; top: 5%; height: 90%; }
+    .works-seal  { right: 4%; bottom: 2%; width: 36%; }
+    .category-button { left: 60%; width: 74%; }
+    .works-button-1 { top: 27%; }
+    .works-button-2 { top: 45%; }
+    .works-button-3 { top: 63%; }
+}
+
+.gallery-page { min-height: calc(100vh - var(--headerHeight)); padding: 2rem 1rem 3rem; }
+.back-button { display: inline-block; width: 90px; transition: transform var(--menuSpeed); }
+.back-button:hover { transform: translateX(-6px); }
+
+/* ---------- 6. Footer ---------- */
+.site-footer {
+    padding: 1.2rem 1.5rem;
+    background: var(--colorPlum);
+    border-top: 4px solid var(--colorPink);
+    font-family: var(--fontSecondary);
+    fontBody: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    text-align: center;
+}
+.site-footer p { margin: 0; }
+
+/* Floating back-to-top button (your topbutton.png): follows the scroll, appears after scrolling down */
+.back-to-top {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 950;
+    width: 96px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+    transition: opacity var(--menuSpeed), visibility var(--menuSpeed), translate var(--menuSpeed), transform var(--menuSpeed);
+}
+.back-to-top img { width: 100%; height: auto; }
+.back-to-top .asset-placeholder { min-height: 0; width: 96px; height: 64px; padding: 0; overflow: hidden; font-size: 0.5rem; }
+.js .back-to-top { opacity: 0; visibility: hidden; translate: 0 20px; }
+.js .back-to-top.is-visible { opacity: 1; visibility: visible; translate: 0 0; }
+.back-to-top:hover,
+.back-to-top:focus-visible { transform: translateY(-4px) scale(1.08); }
+
+@media (max-width: 768px) {
+    .back-to-top { width: 52px; }
+}
+@media (max-width: 768px) {
+    .back-to-top { width: 52px; }
+}
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+}
